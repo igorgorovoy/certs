@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  nginx:
+    container_name: "nginx-ingress"
+    image: nginx:1.17.8
+    restart: always
+    networks:
+      - decenture
+    volumes:
+      - static:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/university-prod.skc.today.conf:/etc/nginx/sites-enabled/university-prod.skc.today.conf 
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+
+networks:
+  decenture:
+    external: true
+
+volumes:
+  static:
